@@ -773,4 +773,84 @@ while True:
                 break
 
 print(f"To je špatně. Vaše konečné skóre je {body}")
+
+#provičování_36
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "milk": 0,
+            "coffee": 18,
+        },
+        "cost": 40,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 50,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 60,
+    }
+}
+resources = {
+    "water": 400,
+    "milk": 300,
+    "coffee": 150,
+}
+def dostatek_surovin(druh):
+    if resources["water"] - MENU[druh]["ingredients"]["water"] >= 0 and resources["milk"] - MENU[druh]["ingredients"]["milk"] >= 0 and resources["coffee"] - MENU["espresso"]["ingredients"]["coffee"] >= 0:
+        print(f"Máme dostatek surovin na přípravu {druh}")
+        return True
+    else:
+        print(f"Nemáme dostatek surovin na přípravu {druh}")
+        return False
+def odecet_vody(druh):
+    return resources["water"] - MENU[druh]["ingredients"]["water"]
+def odecet_mleka(druh):
+    return resources["milk"] - MENU[druh]["ingredients"]["milk"]
+def odecet_kavy(druh):
+    return resources["coffee"] - MENU[druh]["ingredients"]["coffee"]
+def penize(druh):
+    print(f'Cena je {MENU[druh]["cost"]}Kč\nProsím, vložte mince 1, 2, 5, 10, 20, 50')
+    kc1 = int(input("Kolik 1Kč chcete vložit?: "))
+    kc2 = int(input("Kolik 2Kč chcete vložit?: "))
+    kc5 = int(input("Kolik 5Kč chcete vložit?: "))
+    kc10= int(input("Kolik 10Kč chcete vložit?: "))
+    kc20 = int(input("Kolik 20Kč chcete vložit?: "))
+    kc50 = int(input("Kolik 50Kč chcete vložit?: "))
+    celkem = kc1 * 1 + kc2 * 2 + kc5 * 5 + kc10 * 10 + kc20 * 20 + kc50 * 50
+    vraceno = celkem - MENU[druh]["cost"]
+    if vraceno >= 0:
+        print(f"Celkem jste vložily: {celkem}Kč\nNápoj se připravuje.\nZde jsou peníze na zpět: {vraceno}Kč")
+    else:
+        print("Nemáte dostatek peněz")
+while True:
+    vyber_kafe = input("Co byste si dal? (espresso/latte/cappuccino): ")
+    #print(vyber_kafe)
+    if vyber_kafe == "espresso" or vyber_kafe == "latte" or vyber_kafe == "cappuccino":
+        dost = dostatek_surovin(vyber_kafe)
+        if dost:
+            resources["water"] = odecet_vody(vyber_kafe)
+            resources["milk"] = odecet_mleka(vyber_kafe)
+            resources["coffee"] = odecet_kavy(vyber_kafe)
+            penize(vyber_kafe)
+        else:
+            break
+    elif vyber_kafe == "report":
+        print(f'Voda: {resources["water"]}\n'
+              f'Mléko: {resources["milk"]}\n'
+              f'Káva: {resources["coffee"]}')
+
+    else:
+        print("Neznámá volba. Zkuste to znovu")
 """
+#provičování_37
